@@ -1,7 +1,6 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { success } from 'zod'
 
 export async function login(formData: {
     email: string
@@ -38,12 +37,19 @@ export async function signup(formData: {
     password: formData.password,
     options: {
         data: {
-            name: formData.name
+            name: formData.name,
+            full_name: formData.name,
         }
     }
   })
 
   if (error) {
+    console.error('Supabase signup error:', {
+      message: error.message,
+      code: error.code,
+      status: error.status,
+    })
+
     return {
         success: false,
         message: error.message

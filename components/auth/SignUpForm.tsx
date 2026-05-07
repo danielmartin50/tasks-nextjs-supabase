@@ -62,9 +62,19 @@ const SignUpForm = ({ setTypeSelected }: AuthFormProps) => {
         try {
             const res = await signup(user)
        
-            if (res.success){
-                toast.success('Hola, ${user.name}. Te hemos enviado un correo para pder validar tu cuenta'.)
+            if (!res.success) {
+                toast.error(res.message || 'Error al registrar el usuario', { duration: 4000 });
+                return;
             }
+
+            if (res.success){
+                toast.success(`Hola, ${user.name}. Te hemos enviado un correo para poder validar tu cuenta`, {duration:4000, icon:'👋'});
+            
+                setTypeSelected('sign-in');
+                form.reset();
+            }
+
+            console.log(user);
 
 
 
